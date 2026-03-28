@@ -5,7 +5,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 import joblib
 import json
 model = joblib.load("../models/model.pkl")
-vectorizer = joblib.load("./models/vectorizer.pkl")
+vectorizer = joblib.load("../models/vectorizer.pkl")
 
 def save_to_json(ranked_news, filename="news.json"):
     data = []
