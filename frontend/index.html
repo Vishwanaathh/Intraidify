@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Market News AI</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #1a73e8;
+        }
+
+        .card {
+            background: white;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+
+        .btn {
+            background: #1a73e8;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: #155cc0;
+        }
+
+        input {
+            padding: 10px;
+            width: 70%;
+            margin-right: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .score-high {
+            color: green;
+            font-weight: bold;
+        }
+
+        .score-low {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>📈 Market News AI</h1>
+
+    <!-- SIGNUP -->
+    <div class="card">
+        <h3>📧 Signup for Alerts</h3>
+
+        <input type="email" id="email" placeholder="Enter your email">
+        <button class="btn" onclick="signup()">Signup</button>
+
+        <p id="msg"></p>
+    </div>
+
+    <!-- NEWS -->
+    <div class="card">
+        <h3>📰 Live Ranked News</h3>
+        <div id="news">Loading...</div>
+    </div>
+
+</div>
+
+<script>
+    const API = "http://127.0.0.1:8000";
+
+    // SIGNUP
+    async function signup() {
+        const email = document.getElementById("email").value;
+
+        if (!email) {
+            alert("Enter a valid email");
+            return;
+        }
+
+        const res = await fetch(API + "/signup", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({email})
+        });
+
+        const data = await res.json();
+        document.getElementById("msg").innerText = data.message;
+    }
+
+    // LOAD NEWS
+    async function loadNews() {
+        try {
+            const res = await fetch(API + "/news");
+            const news = await res.json();
+
+            let html = "";
+
+            news.slice(0, 10).forEach((item, i) => {
+                const scoreClass = item.score > 50 ? "score-high" : "score-low";
+
+                html += `
+                    <div class="card">
+                        <p><b>Rank #${i+1}</b></p>
+                        <h3>${item.title}</h3>
+                        <p class="${scoreClass}">Score: ${item.score.toFixed(2)}</p>
+                        <a href="${item.link}" target="_blank">Read Full Article →</a>
+                    </div>
+                `;
+            });
+
+            document.getElementById("news").innerHTML = html;
+
+        } catch (err) {
+            document.getElementById("news").innerHTML = "Error loading news";
+        }
+    }
+
+    
+    setInterval(loadNews, 300000);
+
+    
+    loadNews();
+</script>
+
+</body>
+</html>
