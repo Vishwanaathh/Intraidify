@@ -1,49 +1,58 @@
 import time
 import os
 import feedparser
-from sklearn.feature_extraction.text import TfidfVectorizer
 import joblib
 import json
-model = joblib.load("../models/model.pkl")
-modell=joblib.load("../models/forestmodelreg.pkl")
-modelll=joblib.load("../models/xgb_classfier.pkl")
+import numpy as np
+from datetime import datetime
+from dateutil import parser  # pip install python-dateutil
+
+# ------------------ Load models and vectorizers ------------------
+model_linear = joblib.load("../models/model.pkl")
+model_rf = joblib.load("../models/forestmodelreg.pkl")
+model_xgb = joblib.load("../models/xgb_classifier.pkl")
+
 vectorizer = joblib.load("../models/vectorizer.pkl")
-vectorizerr=joblib.load("../models/vectorizerr.pkl")
-vectorizerrr=joblib.load("../models/vectorizer_xgb.pkl")
+vectorizerr = joblib.load("../models/vectorizerr.pkl")
+vectorizer_xgb = joblib.load("../models/vectorizer_xgb.pkl")
+
+# ------------------ Helper functions ------------------
+def normalize(arr):
+    arr = np.array(arr)
+    min_val = arr.min()
+    max_val = arr.max()
+    if max_val - min_val == 0:
+        return np.zeros_like(arr)
+    return (arr - min_val) / (max_val - min_val)
+
 
 def save_to_json(ranked_news, filename="news.json"):
     data = []
-
-    for item in ranked_news[:20]: 
+    for item in ranked_news[:20]:
         record = {
             "title": item["title"],
-            "score": float(item["score"]),  
+            "score": float(item["score"]),
             "link": item["link"],
             "published": item["published"]
         }
         data.append(record)
-
     with open(filename, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=4)
+    print("✅ JSON file updated")
 
-    print("JSON file updated ✅")
 
 def fetch_news():
     FEEDS = [
-            "https://feeds.content.dowjones.io/public/rss/mw_topstories",
-    "https://feeds.a.dj.com/rss/RSSMarketsMain.xml",
-    "https://finance.yahoo.com/rss/topstories",
-    "https://www.cnbc.com/id/100003114/device/rss/rss.html",
-
-    # 📊 Market Specific
-    "https://www.investing.com/rss/news_25.rss",
-    "https://www.investing.com/rss/news_1.rss",   # general news
-    "https://www.investing.com/rss/news_301.rss", # stock market
-
-    # 🌍 Global Financial News
-    "https://www.reutersagency.com/feed/?best-topics=business-finance&post_type=best",
-    "https://www.ft.com/rss/home",  # Financial Times
-    "https://www.bloomberg.com/feed/podcast/etf-report.xml",
+        "https://feeds.content.dowjones.io/public/rss/mw_topstories",
+        "https://feeds.a.dj.com/rss/RSSMarketsMain.xml",
+        "https://finance.yahoo.com/rss/topstories",
+        "https://www.cnbc.com/id/100003114/device/rss/rss.html",
+        "https://www.investing.com/rss/news_25.rss",
+        "https://www.investing.com/rss/news_1.rss",
+        "https://www.investing.com/rss/news_301.rss",
+        "https://www.reutersagency.com/feed/?best-topics=business-finance&post_type=best",
+        "https://www.ft.com/rss/home",
+        "https://www.bloomberg.com/feed/podcast/etf-report.xml",
     ]
 
     news = []
@@ -51,225 +60,129 @@ def fetch_news():
 
     for idx, url in enumerate(FEEDS):
         feed = feedparser.parse(url)
-
-        for entry in feed.entries[:15]:  
+        for entry in feed.entries[:15]:
             link = entry.link
-
-            # remove duplicates
             if link in seen_links:
                 continue
             seen_links.add(link)
-
             record = {
                 "title": entry.title,
                 "link": link,
                 "summary": entry.get("summary", ""),
                 "published": entry.get("published", "")
             }
-
             news.append(record)
-
-        print(f"Source {idx} fetched")
+        print(f"Source {idx+1} fetched")
 
     print("All sources fetched")
     return news
 
 
+# ------------------ Keyword scoring ------------------
 KEYWORD_WEIGHTS = {
-
-    # 📈 VERY STRONG POSITIVE (market-moving)
-    "acquisition": 5,
-    "merger": 5,
-    "buyout": 5,
-    "takeover": 5,
-    "strategic investment": 4,
-    "funding round": 4,
-    "ipo success": 4,
-    "record profit": 5,
-    "profit surge": 5,
-    "earnings beat": 5,
-    "beat estimates": 4,
+    "acquisition": 5, "merger": 5, "buyout": 5, "takeover": 5,
+    "record profit": 5, "profit surge": 5, "earnings beat": 5,
     "guidance raised": 5,
 
-    # 📈 MODERATE POSITIVE
-    "growth": 2,
-    "expansion": 2,
-    "partnership": 3,
-    "collaboration": 2,
-    "joint venture": 3,
-    "upgrade": 3,
-    "bullish": 2,
-    "rally": 3,
-    "surge": 3,
-    "soars": 3,
-    "jumps": 2,
-    "outperformance": 3,
-    "dividend increase": 3,
-    "stock split": 3,
-    "share buyback": 4,
-    "buyback": 3,
-    "new contract": 3,
-    "revenue growth": 3,
-    "market expansion": 2,
+    "growth": 2, "expansion": 2, "partnership": 3,
+    "upgrade": 3, "bullish": 2, "rally": 3, "surge": 3,
 
-    # 📉 VERY STRONG NEGATIVE
-    "bankruptcy": 6,
-    "default": 5,
-    "fraud": 6,
-    "scandal": 5,
-    "crash": 6,
-    "plunge": 5,
-    "collapse": 6,
-    "liquidity crisis": 5,
-    "debt crisis": 5,
+    "bankruptcy": 6, "fraud": 6, "crash": 6,
+    "plunge": 5, "collapse": 6,
 
-    # 📉 MODERATE NEGATIVE
-    "sell-off": 4,
-    "selloff": 4,
-    "decline": 2,
-    "drop": 2,
-    "loss": 2,
-    "net loss": 3,
-    "earnings miss": 4,
-    "missed estimates": 4,
-    "guidance cut": 4,
-    "downgrade": 3,
-    "bearish": 2,
-    "recession": 4,
-    "slowdown": 3,
-    "layoffs": 4,
-    "job cuts": 4,
-    "shutdown": 4,
-    "closure": 3,
-    "credit risk": 4,
-    "lawsuit": 3,
-    "investigation": 3,
-    "regulatory action": 4,
-    "fine": 3,
-    "penalty": 3,
-    "ban": 4,
+    "sell-off": 4, "loss": 2, "earnings miss": 4,
+    "downgrade": 3, "recession": 4, "layoffs": 4,
 
-    # 🏦 MACRO (context-heavy impact)
-    "interest rate hike": 4,
-    "rate hike": 4,
-    "rate cut": 4,
-    "inflation": 3,
-    "deflation": 3,
-    "fed": 3,
-    "central bank": 3,
-    "monetary policy": 3,
-    "tightening": 4,
-    "stimulus": 4,
-    "quantitative easing": 4,
-    "bond yield": 3,
-    "treasury yield": 3,
+    "interest rate hike": 4, "inflation": 3,
+    "fed": 3, "central bank": 3,
 
-    # 🌍 GEOPOLITICAL (high volatility impact)
-    "war": 5,
-    "conflict": 4,
-    "sanctions": 4,
-    "tariffs": 4,
-    "trade war": 5,
-    "geopolitical tension": 4,
-    "crisis": 4,
-    "oil prices": 4,
-    "commodity surge": 4,
+    "war": 5, "sanctions": 4, "trade war": 5,
 
-    # 🏢 CORPORATE ACTIONS
-    "dividend": 2,
-    "earnings": 2,
-    "quarter results": 2,
-    "annual report": 1,
-    "guidance": 2,
-    "forecast": 2,
-    "stake sale": 3,
-    "insider selling": 4,
-    "insider buying": 4,
-    "management change": 3,
-    "ceo resignation": 4,
-    "board change": 2,
+    "dividend": 2, "earnings": 2,
 
-    # ⚡ VOLATILITY / TRADING SIGNALS
-    "volatility": 3,
-    "market correction": 4,
-    "overvalued": 3,
-    "undervalued": 3,
-    "short squeeze": 5,
-    "options surge": 3,
-    "liquidation": 4,
-    "margin call": 5
+    "volatility": 3, "market correction": 4,
+    "short squeeze": 5
 }
 
 def keyword_score(text):
     text = text.lower()
     score = 0
-
     for word, weight in KEYWORD_WEIGHTS.items():
         if word in text:
             score += weight
-
     return score
 
+
+# ------------------ Recency scoring ------------------
+def recency_score(published, decay=0.5):
+    try:
+        pub_date = parser.parse(published)
+        now = datetime.utcnow()
+        diff_hours = (now - pub_date).total_seconds() / 3600
+        score = np.exp(-decay * diff_hours / 24)  # scaled in days
+        return score
+    except:
+        return 0  # if date is missing or invalid
+
+
+# ------------------ Ranking function ------------------
 def rank_news(news):
-    texts = []
+    texts = [item["title"] + " " + item["summary"] for item in news]
 
-    for item in news:
-        combined = item["title"] + " " + item["summary"]
-        texts.append(combined)
-
-    # transforms
+    # Transform for ML models
     X_linear = vectorizer.transform(texts)
     X_rf = vectorizerr.transform(texts)
     X_xgb = vectorizer_xgb.transform(texts)
 
-    # predictions
-    preds_linear = model.predict(X_linear)
-    preds_rf = modell.predict(X_rf)
-
+    # Predictions
+    preds_linear = normalize(model_linear.predict(X_linear))
+    preds_rf = normalize(model_rf.predict(X_rf))
     probs = model_xgb.predict_proba(X_xgb)
-    preds_xgb = probs[:, 2]   
-
-    # normalize
-    preds_linear = normalize(preds_linear)
-    preds_rf = normalize(preds_rf)
+    preds_xgb = probs[:, 1]  # adjust for binary/multi-class
 
     for i in range(len(news)):
         base_score = (
             0.3 * preds_linear[i] +
             0.3 * preds_rf[i] +
-            0.4 * preds_xgb[i]
+            0.3 * preds_xgb[i]
         )
-
         boost = keyword_score(texts[i])
-
-        news[i]["score"] = base_score + 0.3 * boost
+        recent_boost = recency_score(news[i]["published"])
+        news[i]["score"] = base_score + 0.3 * boost + 0.4 * recent_boost
 
     return sorted(news, key=lambda x: x["score"], reverse=True)
 
+
+# ------------------ Main loop ------------------
 if __name__ == "__main__":
     while True:
         try:
             os.system('cls' if os.name == 'nt' else 'clear')
-
             print("Fetching and ranking news...\n")
 
             news = fetch_news()
             ranked_news = rank_news(news)
             save_to_json(ranked_news)
 
-            print("TOP RANKED NEWS:\n")
-
+            print("\nTOP RANKED NEWS:\n")
             for i, item in enumerate(ranked_news[:10]):
+                # Format published date
+                try:
+                    pub_dt = parser.parse(item["published"])
+                    pub_str = pub_dt.strftime("%Y-%m-%d %H:%M UTC")
+                except:
+                    pub_str = "Unknown"
+
                 print(f"Rank {i+1}")
                 print("Title:", item["title"])
-                print("Score:", item["score"])
+                print("Score:", round(item["score"], 3))
+                print("Published:", pub_str)
                 print("Link:", item["link"])
                 print("-" * 60)
 
             print("\nRefreshing in 300 seconds...\n")
-
-            time.sleep(300)   
+            time.sleep(300)
 
         except Exception as e:
             print("Error:", e)
-            time.sleep(300)
+            time.sleep(60)
