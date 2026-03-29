@@ -17,8 +17,8 @@ from fastapi.middleware.cors import CORSMiddleware
 USERS_FILE = "users.json"
 NEWS_FILE = "news.json"
 
-EMAIL_USER = "vishwanaathh4@gmail.com"
-EMAIL_PASS = "hiwr ageg pzsn cfop"
+EMAIL_USER = ""
+EMAIL_PASS = ""
 
 # ------------------ FastAPI Setup ------------------
 app = FastAPI()
