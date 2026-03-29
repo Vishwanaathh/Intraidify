@@ -10,8 +10,8 @@ from watchdog.events import FileSystemEventHandler
 
 FILE_TO_WATCH = "news.json"
 
-SENDER_EMAIL = "vishwanaathh4@gmail.com"
-APP_PASSWORD = "hiwr ageg pzsn cfop"
+SENDER_EMAIL = ""
+APP_PASSWORD = ""
 
 RECIPIENTS = [
     "peoplewatching41@gmail.com",
