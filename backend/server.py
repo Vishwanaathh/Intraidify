@@ -13,18 +13,14 @@ import numpy as np
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 
-
+# ------------------ Config ------------------
 USERS_FILE = "users.json"
 NEWS_FILE = "news.json"
 
-from dotenv import load_dotenv
+EMAIL_USER = "vishwanaathh4@gmail.com"
+EMAIL_PASS = "hiwr ageg pzsn cfop"
 
-
-load_dotenv()
-
-EMAIL_USER = os.getenv("EMAIL_USER")
-EMAIL_PASS = os.getenv("EMAIL_PASS")
-
+# ------------------ FastAPI Setup ------------------
 app = FastAPI()
 
 app.add_middleware(
@@ -45,7 +41,7 @@ def init_files():
 
 init_files()
 
-
+# ------------------ User API ------------------
 @app.post("/signup")
 async def signup(request: Request):
     data = await request.json()
@@ -167,6 +163,7 @@ def watch_news():
             print("❌ Error:", e)
 
 
+# Load your ML models & vectorizers here
 model_linear = joblib.load("../models/model.pkl")
 model_rf = joblib.load("../models/forestmodelreg.pkl")
 model_xgb = joblib.load("../models/xgb_classifier.pkl")
@@ -282,7 +279,7 @@ def background_scraper():
             print("❌ Scraper error:", e)
         time.sleep(300)  # every 5 minutes
 
-
+# ------------------ Startup events ------------------
 @app.on_event("startup")
 def start_background_tasks():
     Thread(target=background_scraper, daemon=True).start()
