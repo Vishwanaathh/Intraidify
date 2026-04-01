@@ -12,13 +12,49 @@ import numpy as np
 
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
-
+from dotenv import load_dotenv
+from google import genai
+load_dotenv()
 
 USERS_FILE = "users.json"
 NEWS_FILE = "news.json"
 
 EMAIL_USER = "csfinancialservices4@gmail.com"
 EMAIL_PASS = "ckvv hidk ikxq ugmf"
+GEMINI_API_KEY=os.getenv("GEMINI_API_KEY")
+client=genai.Client(api_key=GEMINI_API_KEY)
+
+def gemini_score_news(news):
+    try:
+        prompt = """You are a financial analyst.
+
+Score each news headline from 0 to 1 based on how much it can move the stock market.
+
+Return ONLY a JSON list of scores in the same order.
+
+News:
+"""
+
+        for i, item in enumerate(news):
+            prompt += f"{i}. {item['title']}\n"
+
+        response = client.models.generate_content(
+            model="gemini-2.0-flash",
+            contents=prompt
+        )
+
+        text = response.text.strip()
+
+        scores = json.loads(text)
+
+        if len(scores) != len(news):
+            return [0.5] * len(news)
+
+        return scores
+
+    except Exception as e:
+        print("gemini error", str(e))
+        return [0.5] * len(news)
 
 app = FastAPI()
 
@@ -263,7 +299,6 @@ def fetch_news():
 
     return news
 
-
 def rank_news(news):
     if not news:
         return []
@@ -281,31 +316,63 @@ def rank_news(news):
         return []
 
     try:
+    
         X_linear = vectorizer.transform(texts)
         X_rf = vectorizerr.transform(texts)
         X_xgb = vectorizer_xgb.transform(texts)
-        X_light=vectorizer_light.transform(texts)
+        X_light = vectorizer_light.transform(texts)
 
+        # Predictions
         preds_linear = normalize(model_linear.predict(X_linear))
         preds_rf = normalize(model_rf.predict(X_rf))
-        preds_light=normalize(np.abs(model_light.predict(X_light)))
+
         probs = model_xgb.predict_proba(X_xgb)
-        preds_xgb = probs[:, 1]
+        preds_xgb = probs[:, 1]  # already 0–1
+
+        preds_light = normalize(np.abs(model_light.predict(X_light)))
+
     except Exception as e:
         print("ranking error", str(e))
         return []
 
+    # Step 1: ML ensemble score
+    ml_scores = []
     for i in range(len(valid_news)):
-        base_score = (
-            0.25* preds_linear[i] +
+        score = (
+            0.25 * preds_linear[i] +
             0.25 * preds_rf[i] +
-            0.25 * preds_xgb[i]+
-            0.25*preds_light[i]
+            0.25 * preds_xgb[i] +
+            0.25 * preds_light[i]
         )
+        ml_scores.append(score)
+
+    # Step 2: sort by ML score first
+    combined = list(zip(valid_news, texts, ml_scores))
+    combined.sort(key=lambda x: x[2], reverse=True)
+
+    valid_news = [x[0] for x in combined]
+    texts = [x[1] for x in combined]
+    ml_scores = [x[2] for x in combined]
+
+    
+    top_k = min(10, len(valid_news))
+    top_news = valid_news[:top_k]
+
+    gemini_scores = gemini_score_news(top_news)
+
+    # Step 4: Final scoring
+    for i in range(len(valid_news)):
         boost = keyword_score(texts[i])
         recent = recency_score(valid_news[i].get("published", ""))
-        valid_news[i]["score"] = base_score + 0.3 * boost + 0.4 * recent
 
+        if i < top_k:
+            final_score = 0.7 * ml_scores[i] + 0.3 * gemini_scores[i]
+        else:
+            final_score = ml_scores[i]
+
+        valid_news[i]["score"] = final_score + 0.3 * boost + 0.4 * recent
+
+    
     return sorted(valid_news, key=lambda x: x["score"], reverse=True)
 
 
