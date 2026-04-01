@@ -13,15 +13,13 @@ import numpy as np
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 
-# ------------------ Config ------------------
+
 USERS_FILE = "users.json"
 NEWS_FILE = "news.json"
-
 
 EMAIL_USER = "csfinancialservices4@gmail.com"
 EMAIL_PASS = "ckvv hidk ikxq ugmf"
 
-# ------------------ FastAPI Setup ------------------
 app = FastAPI()
 
 app.add_middleware(
@@ -32,6 +30,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 def init_files():
     if not os.path.exists(USERS_FILE):
         with open(USERS_FILE, "w") as f:
@@ -40,13 +39,15 @@ def init_files():
         with open(NEWS_FILE, "w") as f:
             json.dump([], f)
 
+
 init_files()
 
-# ------------------ User API ------------------
+
 @app.post("/signup")
 async def signup(request: Request):
     data = await request.json()
     email = data.get("email")
+
     with open(USERS_FILE, "r") as f:
         users = json.load(f)
 
@@ -57,22 +58,21 @@ async def signup(request: Request):
 
     with open(USERS_FILE, "w") as f:
         json.dump(users, f, indent=4)
-    yag=yagmail.SMTP(EMAIL_USER,EMAIL_PASS)
-    to_s=email
-    subjectt="Welcome to IntrAIdify!!"
-    contentss=f"""
-        <h2>Welcome to IntrAIdify!</h2>
-        <p>Hi {email},</p>
-        <p>Thank you for signing up! We're excited to have you on board.</p>
-        <p>🚀 Explore the latest news updates and insights now.</p>
-        """
-    yag.send(
-        to=to_s,
-        subject=subjectt,
-        contents=contentss
 
-    )
-    print("Welcome sent")
+    try:
+        yag = yagmail.SMTP(EMAIL_USER, EMAIL_PASS)
+        yag.send(
+            to=email,
+            subject="Welcome to IntrAIdify!!",
+            contents=f"""
+            <h2>Welcome to IntrAIdify!</h2>
+            <p>Hi {email},</p>
+            <p>Thank you for signing up!</p>
+            """
+        )
+        print("signup email sent to", email)
+    except Exception as e:
+        print("signup email error", str(e))
 
     return {"message": "Signup successful"}
 
@@ -81,7 +81,6 @@ async def signup(request: Request):
 def get_news():
     if not os.path.exists(NEWS_FILE):
         return []
-
     with open(NEWS_FILE, "r") as f:
         return json.load(f)
 
@@ -89,88 +88,93 @@ def get_news():
 last_hash = None
 last_sent_titles = set()
 
+
 def get_file_hash():
     try:
         with open(NEWS_FILE, "rb") as f:
             return hashlib.md5(f.read()).hexdigest()
-    except:
+    except Exception as e:
+        print("hash error", str(e))
         return None
+
 
 def should_send(data):
     global last_sent_titles
     if not data:
         return False
-    current_titles = {item["title"] for item in data[:5]}
+    try:
+        current_titles = {item.get("title", "") for item in data[:5]}
+    except Exception as e:
+        print("should_send error", str(e))
+        return False
     if current_titles == last_sent_titles:
-        print("⚠️ Duplicate news → skip email")
         return False
     last_sent_titles = current_titles
     return True
+
 
 def send_email(data):
     try:
         with open(USERS_FILE, "r") as f:
             users = json.load(f)
         if not users:
-            print("⚠️ No users to send email")
+            print("no users")
             return
-
         yag = yagmail.SMTP(EMAIL_USER, EMAIL_PASS)
-        content = "<h2>📈 Market News Update</h2>"
+        content = "<h2>Market News Update</h2>"
         for item in data[:10]:
-            # Format published time
             try:
-                pub_dt = parser.parse(item.get("published",""))
+                pub_dt = parser.parse(item.get("published", ""))
                 pub_str = pub_dt.strftime("%Y-%m-%d %H:%M UTC")
             except:
                 pub_str = "Unknown"
-
             content += f"""
             <p>
-                <b>{item['title']}</b><br>
+                <b>{item.get('title','')}</b><br>
                 Score: {round(item.get('score', 0),3)}<br>
                 Published: {pub_str}<br>
-                <a href="{item['link']}">Read more</a>
+                <a href="{item.get('link','')}">Read more</a>
             </p>
             <hr>
             """
-
-        yag.send(
-            to=users,
-            subject="🚨 Market Alert",
-            contents=content
-        )
-        print("📧 Emails sent!")
+        yag.send(to=users, subject="Market Alert", contents=content)
+        print("email sent", users)
     except Exception as e:
-        print("❌ Email error:", e)
+        print("email error", str(e))
+
 
 def watch_news():
     global last_hash
-    print("👀 Watching news.json for real changes...")
     last_hash = get_file_hash()
+    print("watching news")
     while True:
         time.sleep(5)
         new_hash = get_file_hash()
         if new_hash == last_hash:
             continue
+        print("news changed")
         last_hash = new_hash
-        print("\n🔥 REAL CHANGE DETECTED")
         try:
             with open(NEWS_FILE, "r") as f:
                 data = json.load(f)
             if should_send(data):
+                print("sending email")
                 send_email(data)
+            else:
+                print("no new headlines")
         except Exception as e:
-            print("❌ Error:", e)
+            print("watch error", str(e))
 
 
-# Load your ML models & vectorizers here
 model_linear = joblib.load("../models/model.pkl")
 model_rf = joblib.load("../models/forestmodelreg.pkl")
 model_xgb = joblib.load("../models/xgb_classifier.pkl")
+model_light=joblib.load("../models/lightmodel.pkl")
 vectorizer = joblib.load("../models/vectorizer.pkl")
 vectorizerr = joblib.load("../models/vectorizerr.pkl")
 vectorizer_xgb = joblib.load("../models/vectorizer_xgb.pkl")
+vectorizer_light=joblib.load("../models/vectorizer_light.pkl")
+
 
 KEYWORD_WEIGHTS = {
     "acquisition": 5, "merger": 5, "buyout": 5, "takeover": 5,
@@ -190,13 +194,17 @@ KEYWORD_WEIGHTS = {
     "short squeeze": 5
 }
 
+
 def normalize(arr):
+    if len(arr) == 0:
+        return np.array([])
     arr = np.array(arr)
     min_val = arr.min()
     max_val = arr.max()
     if max_val - min_val == 0:
         return np.zeros_like(arr)
     return (arr - min_val) / (max_val - min_val)
+
 
 def keyword_score(text):
     text = text.lower()
@@ -206,15 +214,16 @@ def keyword_score(text):
             score += weight
     return score
 
+
 def recency_score(published, decay=0.5):
     try:
         pub_date = parser.parse(published)
         now = datetime.utcnow()
         diff_hours = (now - pub_date).total_seconds() / 3600
-        score = np.exp(-decay * diff_hours / 24)
-        return score
+        return np.exp(-decay * diff_hours / 24)
     except:
         return 0
+
 
 def fetch_news():
     FEEDS = [
@@ -229,60 +238,106 @@ def fetch_news():
         "https://www.ft.com/rss/home",
         "https://www.bloomberg.com/feed/podcast/etf-report.xml",
     ]
+
     news = []
     seen_links = set()
+
     for url in FEEDS:
-        feed = feedparser.parse(url)
-        for entry in feed.entries[:15]:
-            link = entry.link
-            if link in seen_links:
+        try:
+            feed = feedparser.parse(url)
+            if not feed.entries:
                 continue
-            seen_links.add(link)
-            news.append({
-                "title": entry.title,
-                "link": link,
-                "summary": entry.get("summary",""),
-                "published": entry.get("published","")
-            })
+            for entry in feed.entries[:15]:
+                link = entry.get("link", "")
+                if not link or link in seen_links:
+                    continue
+                seen_links.add(link)
+                news.append({
+                    "title": entry.get("title", ""),
+                    "link": link,
+                    "summary": entry.get("summary", ""),
+                    "published": entry.get("published", "")
+                })
+        except:
+            continue
+
     return news
 
+
 def rank_news(news):
-    texts = [item["title"] + " " + item["summary"] for item in news]
-    X_linear = vectorizer.transform(texts)
-    X_rf = vectorizerr.transform(texts)
-    X_xgb = vectorizer_xgb.transform(texts)
+    if not news:
+        return []
 
-    preds_linear = normalize(model_linear.predict(X_linear))
-    preds_rf = normalize(model_rf.predict(X_rf))
-    probs = model_xgb.predict_proba(X_xgb)
-    preds_xgb = probs[:,1]
+    texts = []
+    valid_news = []
 
-    for i in range(len(news)):
-        base_score = 0.3*preds_linear[i]+0.3*preds_rf[i]+0.3*preds_xgb[i]
+    for item in news:
+        text = (item.get("title", "") + " " + item.get("summary", "")).strip()
+        if text:
+            texts.append(text)
+            valid_news.append(item)
+
+    if not texts:
+        return []
+
+    try:
+        X_linear = vectorizer.transform(texts)
+        X_rf = vectorizerr.transform(texts)
+        X_xgb = vectorizer_xgb.transform(texts)
+        X_light=vectorizer_light.transform(texts)
+
+        preds_linear = normalize(model_linear.predict(X_linear))
+        preds_rf = normalize(model_rf.predict(X_rf))
+        preds_light=normalize(np.abs(model_light.predict(X_light)))
+        probs = model_xgb.predict_proba(X_xgb)
+        preds_xgb = probs[:, 1]
+    except Exception as e:
+        print("ranking error", str(e))
+        return []
+
+    for i in range(len(valid_news)):
+        base_score = (
+            0.25* preds_linear[i] +
+            0.25 * preds_rf[i] +
+            0.25 * preds_xgb[i]+
+            0.25*preds_light[i]
+        )
         boost = keyword_score(texts[i])
-        recent = recency_score(news[i]["published"])
-        news[i]["score"] = base_score + 0.3*boost + 0.4*recent
-    return sorted(news, key=lambda x: x["score"], reverse=True)
+        recent = recency_score(valid_news[i].get("published", ""))
+        valid_news[i]["score"] = base_score + 0.3 * boost + 0.4 * recent
+
+    return sorted(valid_news, key=lambda x: x["score"], reverse=True)
+
 
 def save_news(news):
     with open(NEWS_FILE, "w") as f:
         json.dump(news[:20], f, indent=4)
 
+
 def background_scraper():
     while True:
         try:
-            print("📰 Fetching news...")
             news = fetch_news()
-            ranked = rank_news(news)
-            save_news(ranked)
-            print("✅ News updated")
-        except Exception as e:
-            print("❌ Scraper error:", e)
-        time.sleep(300)  # every 5 minutes
+            if not news:
+                print("no news fetched")
+                time.sleep(60)
+                continue
 
-# ------------------ Startup events ------------------
+            ranked = rank_news(news)
+            if not ranked:
+                print("ranking failed")
+                time.sleep(60)
+                continue
+
+            save_news(ranked)
+            print("news updated")
+        except Exception as e:
+            print("scraper error", str(e))
+
+        time.sleep(300)
+
+
 @app.on_event("startup")
 def start_background_tasks():
     Thread(target=background_scraper, daemon=True).start()
     Thread(target=watch_news, daemon=True).start()
-    print("🚀 Background scraper and watcher started")
