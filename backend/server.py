@@ -173,7 +173,7 @@ model_light=joblib.load("../models/lightmodel.pkl")
 vectorizer = joblib.load("../models/vectorizer.pkl")
 vectorizerr = joblib.load("../models/vectorizerr.pkl")
 vectorizer_xgb = joblib.load("../models/vectorizer_xgb.pkl")
-vectorizer_light=joblib.load("../models/vectorizer_light.pkl")
+vectorizer_light=joblib.load("../models/lightvectorizer.pkl")
 
 
 KEYWORD_WEIGHTS = {
