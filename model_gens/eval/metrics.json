@@ -1,0 +1,23 @@
+{
+  "linear_regression": {
+    "spearman_rho": 0.1390744414282946,
+    "ndcg_at_10": 0.660055745474459
+  },
+  "random_forest": {
+    "spearman_rho": 0.11912476681245034,
+    "ndcg_at_10": 0.6548861643942981
+  },
+  "random_baseline": {
+    "ndcg_at_10_mean": 0.6018232421107532,
+    "ndcg_at_10_std": 0.004800992702669443
+  },
+  "xgboost_classifier": {
+    "accuracy": 0.4157788944723618,
+    "macro_f1": 0.30477784067318153,
+    "majority_class_baseline_accuracy": 0.4
+  },
+  "lightgbm_sentiment": {
+    "rmse": 0.2510081857162713,
+    "r2": 0.5792821322510767
+  }
+}

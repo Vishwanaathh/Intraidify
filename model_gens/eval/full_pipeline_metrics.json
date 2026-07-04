@@ -1,0 +1,126 @@
+{
+  "n_test_days_evaluated": 398,
+  "n_test_days_total": 398,
+  "n_cascade_days_evaluated": 378,
+  "llm_calls_made_this_run": 338,
+  "llm_looked_broken": false,
+  "A_ml_only": {
+    "spearman_rho": 0.1453597306751892,
+    "ndcg_at_10": 0.6624671165214723
+  },
+  "B_ml_keyword": {
+    "spearman_rho": 0.12748192672807113,
+    "ndcg_at_10": 0.6568388207983097
+  },
+  "C_ml_keyword_topic_action": {
+    "spearman_rho": 0.12267324314026036,
+    "ndcg_at_10": 0.6532147034952389
+  },
+  "D_full_pipeline": {
+    "spearman_rho": 0.12362600879598855,
+    "ndcg_at_10": 0.654236978244601
+  },
+  "random_baseline_ndcg_at_10": 0.6064394616972207,
+  "w_llm_mean": 0.4185795208892162,
+  "w_llm_median": 0.4293635764754634,
+  "w_llm_fraction_above_0.5": 0.21768844221105527,
+  "cascade_top10": {
+    "rho_ml_only": 0.08991502324835657,
+    "rho_llm_reranked": 0.07452300785634118,
+    "ndcg_ml_only": 0.8605689047759901,
+    "ndcg_llm_reranked": 0.8602054337326032
+  },
+  "significance_tests": {
+    "A_vs_B": {
+      "description": "A vs B: does keyword weighting help?",
+      "ndcg_10": {
+        "n": 398,
+        "statistic": 35855.0,
+        "p_value": 0.09402015465522211,
+        "mean_diff": 0.005628295723162426,
+        "note": "not significant at p<0.05"
+      },
+      "spearman": {
+        "n": 398,
+        "statistic": 33324.0,
+        "p_value": 0.006929472965169346,
+        "mean_diff": 0.01787780394711806,
+        "note": "significant at p<0.05"
+      }
+    },
+    "B_vs_C": {
+      "description": "B vs C: does topic/actionability help?",
+      "ndcg_10": {
+        "n": 398,
+        "statistic": 35058.0,
+        "p_value": 0.06252805927121796,
+        "mean_diff": 0.003624117303071053,
+        "note": "not significant at p<0.05"
+      },
+      "spearman": {
+        "n": 398,
+        "statistic": 34949.5,
+        "p_value": 0.08014662684330687,
+        "mean_diff": 0.004808683587810769,
+        "note": "not significant at p<0.05"
+      }
+    },
+    "C_vs_D": {
+      "description": "C vs D: does LLM softmax blend help?",
+      "ndcg_10": {
+        "n": 398,
+        "statistic": 39650.0,
+        "p_value": 0.9824553417365067,
+        "mean_diff": -0.0010222747493623464,
+        "note": "not significant at p<0.05"
+      },
+      "spearman": {
+        "n": 398,
+        "statistic": 38760.0,
+        "p_value": 0.9480068950544517,
+        "mean_diff": -0.0009527656557281726,
+        "note": "not significant at p<0.05"
+      }
+    },
+    "A_vs_D": {
+      "description": "A vs D: does the full pipeline beat plain ML?",
+      "ndcg_10": {
+        "n": 398,
+        "statistic": 34691.0,
+        "p_value": 0.029151041842797272,
+        "mean_diff": 0.008230138276871132,
+        "note": "significant at p<0.05"
+      },
+      "spearman": {
+        "n": 398,
+        "statistic": 32236.5,
+        "p_value": 0.0014954418000194365,
+        "mean_diff": 0.021733721879200658,
+        "note": "significant at p<0.05"
+      }
+    },
+    "cascade_ml_vs_llm_reranked": {
+      "description": "Cascade test: LLM re-ranking of ML's own top-10 vs. ML's own ordering of that top-10",
+      "spearman": {
+        "n": 378,
+        "statistic": 32666.0,
+        "p_value": 0.3741485794234056,
+        "mean_diff": 0.015392015392015393,
+        "note": "not significant at p<0.05"
+      },
+      "ndcg_10": {
+        "n": 378,
+        "statistic": 35412.0,
+        "p_value": 0.8494523250667765,
+        "mean_diff": 0.00036347104338691865,
+        "note": "not significant at p<0.05"
+      }
+    }
+  },
+  "significance_test_note": "Wilcoxon signed-rank test, paired by day, computed over all days evaluated so far (cumulative across runs). With few days completed these tests have low statistical power - the more runs you accumulate (at 20 days/day), the more reliable these p-values become. Check n_test_days_evaluated vs n_test_days_total below.",
+  "known_limitations": [
+    "text = title only (no summary field in the DJIA dataset) - this eval sees less text per headline than production does.",
+    "recency() is a constant 1.0 here - documented no-op offline.",
+    "For non-top-10 headlines, kog defaults to 0.5*0.5=0.25 (neutral placeholder), which softmax treats as a real competing score."
+  ]
+}

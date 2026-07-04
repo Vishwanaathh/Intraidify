@@ -1,142 +1,162 @@
 [
     {
-        "title": "Stock Market Today, March 27: Unity Software Surges on Vector AI Guidance",
-        "link": "https://finance.yahoo.com/markets/stocks/articles/stock-market-today-march-27-223029646.html",
+        "title": "Sterling today: Pound gains as Iran ceasefire sparks dollar retreat",
         "summary": "",
-        "published": "2026-03-27T22:30:29Z",
-        "score": 2.7622462438317097
+        "link": "https://www.investing.com/news/forex-news/sterling-today-pound-gains-as-iran-ceasefire-sparks-dollar-retreat-4602349",
+        "published": "2026-04-08 09:35:48",
+        "raw_score": 1.197514373118326,
+        "score": 1.0
     },
     {
-        "title": "Bitcoin set for weekly loss as Iran war, $14 bln options expiry roils sentiment",
-        "link": "https://www.investing.com/news/cryptocurrency-news/bitcoin-falls-to-68k-as-iran-uncertainty-persists-ahead-of-14-bln-options-expiry-4584128",
+        "title": "Citigroup says AI helps speed account openings and systems upgrades",
         "summary": "",
-        "published": "2026-03-28 09:14:37",
-        "score": 2.5970776771615105
+        "link": "https://www.investing.com/news/stock-market-news/citigroup-says-ai-helps-speed-account-openings-and-systems-upgrades-4603618",
+        "published": "2026-04-08 16:12:38",
+        "raw_score": 1.1910146930502514,
+        "score": 0.9916993964569175
     },
     {
-        "title": "The Extra Reward for Owning Stocks Over Bonds Has Disappeared",
-        "link": "https://www.wsj.com/articles/the-extra-reward-for-owning-stocks-over-bonds-has-disappeared-c3f9c223?mod=rss_markets_main",
-        "summary": "There is little sign of crimped demand for equities among individual investors, who remain bullish after two years of blockbuster gains.",
-        "published": "Mon, 27 Jan 2025 01:05:00 -0500",
-        "score": 2.515225306259401
-    },
-    {
-        "title": "Sportsman\u2019s Warehouse Holdings (SPWH) Balances Growth With Strategic Streamlining",
-        "link": "https://finance.yahoo.com/markets/stocks/articles/sportsman-warehouse-holdings-spwh-balances-215747502.html",
+        "title": "Meta unveils first AI model from superintelligence team",
         "summary": "",
-        "published": "2026-03-27T21:57:47Z",
-        "score": 2.4150037181607376
+        "link": "https://www.investing.com/news/stock-market-news/meta-unveils-first-ai-model-from-superintelligence-team-4603620",
+        "published": "2026-04-08 16:13:29",
+        "raw_score": 1.168815531831212,
+        "score": 0.9633493185548822
     },
     {
-        "title": "Tiger Woods arrested for DUI after rollover car crash, Florida sheriff says",
-        "link": "https://www.cnbc.com/2026/03/27/tiger-woods-rollover-car-crash-florida.html",
-        "summary": "Golf legend Tiger Woods was arrested for a DUI after a rollover car crash in Florida on Friday, the Martin County sheriff said.",
-        "published": "Sat, 28 Mar 2026 03:31:25 GMT",
-        "score": 2.30168030391793
+        "title": "Meta debuts new AI model, attempting to catch Google, OpenAI after spending billions",
+        "summary": "Meta debuted its first major large language model, Muse Spark, spearheaded by chief AI officer Alexandr Wang, who leads Meta Superintelligence Labs.",
+        "link": "https://www.cnbc.com/2026/04/08/meta-debuts-first-major-ai-model-since-14-billion-deal-to-bring-in-alexandr-wang.html",
+        "published": "Wed, 08 Apr 2026 16:16:02 GMT",
+        "raw_score": 1.1645725697567761,
+        "score": 0.9579307216917508
     },
     {
-        "title": "Factbox-How many people have been killed in the US-Israeli war on Iran?",
-        "link": "https://www.investing.com/news/stock-market-news/factboxhow-many-people-have-been-killed-in-the-usisraeli-war-on-iran-4586333",
+        "title": "Whale.io Launches the First AI Agent MCP for Crypto Casino",
         "summary": "",
-        "published": "2026-03-28 23:06:27",
-        "score": 2.209437374530892
+        "link": "https://www.investing.com/news/cryptocurrency-news/whaleio-launches-the-first-ai-agent-mcp-for-crypto-casino-4601312",
+        "published": "2026-04-07 19:30:34",
+        "raw_score": 1.1387449268020262,
+        "score": 0.9249467867327525
     },
     {
-        "title": "Bitcoin set to end the week lower amid risk aversion as the Iran war rages on",
-        "link": "https://www.investing.com/news/cryptocurrency-news/bitcoin-set-to-end-the-week-lower-amid-risk-aversion-as-the-iran-war-rages-on-4586235",
+        "title": "Perplexity revenue jumps 50% in pivot from search to AI agents",
+        "summary": "San Francisco-based start-up surges from push into more complex and potentially more lucrative AI services",
+        "link": "https://www.ft.com/content/e9c28d31-a962-4684-8b58-c9e6bc68401f",
+        "published": "Wed, 08 Apr 2026 04:00:16 GMT",
+        "raw_score": 1.1359449423597625,
+        "score": 0.921370985995084
+    },
+    {
+        "title": "Top US general says Operation Epic Fury in Iran was fueled by energy drinks, coffee, and nicotine",
+        "summary": "Chairman of the Joint Chiefs of Staff Gen. Dan Caine said Operation Epic Fury in Iran was fueled by energy drinks, coffee, and nicotine",
+        "link": "https://www.businessinsider.com/general-says-operation-epic-fury-fueled-by-coffee-and-nicotine-2026-4",
+        "published": "2026-04-08T15:17:34Z",
+        "raw_score": 1.1306563750605205,
+        "score": 0.914617068878834
+    },
+    {
+        "title": "Amazon Stock Rallies Past Key Level. What's Next For AI Push?",
         "summary": "",
-        "published": "2026-03-27 23:03:01",
-        "score": 2.0451762504162043
+        "link": "https://www.investors.com/news/technology/amazon-stock-rally-iran-ceasefire-ai/?src=A00220&yptr=yahoo",
+        "published": "2026-04-08T15:38:52Z",
+        "raw_score": 1.1117724246681007,
+        "score": 0.8905007764008951
     },
     {
-        "title": "U.S. dollar rises, heads for best month since July as Iran war boosts demand",
-        "link": "https://www.investing.com/news/forex-news/asia-fx-muted-as-traders-weigh-iran-diplomacy-indian-rupee-hits-new-record-low-4584090",
+        "title": "Operation Epic Fury strikes were fueled by 2 million energy drinks, about a million gallons of coffee, and nicotine, top general says",
+        "summary": "Gen. Dan Caine, the chairman of the Joint Chiefs of Staff, provided stats on the war with Iran, from targets struck to energy drinks consumed.",
+        "link": "https://www.businessinsider.com/us-war-with-iran-by-numbers-energy-drinks-to-targets-2026-4",
+        "published": "2026-04-08T15:34:34Z",
+        "raw_score": 1.1091341260552428,
+        "score": 0.887131461206265
+    },
+    {
+        "title": "Sterling today: Pound weakens as White House deadline keeps dollar in demand",
         "summary": "",
-        "published": "2026-03-27 21:31:01",
-        "score": 2.0138143233886114
+        "link": "https://www.investing.com/news/forex-news/sterling-today-pound-weakens-as-white-house-deadline-keeps-dollar-in-demand-4599745",
+        "published": "2026-04-07 07:51:16",
+        "raw_score": 1.1022732345810753,
+        "score": 0.8783695622385133
     },
     {
-        "title": "Analysis: A new oil shock is building. The next few weeks of war will be decisive for the economy.",
-        "link": "https://www.cnbc.com/2026/03/28/oil-gas-prices-iran-war-hormuz.html",
-        "summary": "Energy markets are starting to reflect the growing risk of physical supply disruptions.",
-        "published": "Sat, 28 Mar 2026 11:00:01 GMT",
-        "score": 1.9395087105680664
+        "title": "JD Vance calls Iran ceasefire a 'fragile truce' and says Trump is 'impatient to make progress'",
+        "summary": "The U.S. vice president said the response from Iran to the ceasefire had varied, with some 'lying about even the fragile truce that we've already struck.'",
+        "link": "https://www.cnbc.com/2026/04/08/jd-vance-iran-ceasefire-fragile-truce-hungary-trump.html",
+        "published": "Wed, 08 Apr 2026 12:04:30 GMT",
+        "raw_score": 1.1020024856698027,
+        "score": 0.8780237945470797
     },
     {
-        "title": "Houthi missile attack signals \u2018serious\u2019 escalation in Iran war",
-        "link": "https://www.ft.com/content/e77d9ac6-d9dd-415e-a4a7-f54d3060239a",
-        "summary": "Rebels\u2019 participation puts vital maritime routes at greater risk",
-        "published": "Sat, 28 Mar 2026 10:47:20 GMT",
-        "score": 1.8722494342399796
+        "title": "AI's next bottleneck: Why even the best chips made in the U.S. take a round trip to Taiwan",
+        "summary": "Nvidia has reserved the majority of TSMC\u2019s most advanced packaging capacity. The lesser-known chipmaking step may become the next bottleneck for AI.",
+        "link": "https://www.cnbc.com/2026/04/08/tsmc-nvidia-advanced-packaging-intel.html",
+        "published": "Wed, 08 Apr 2026 12:41:22 GMT",
+        "raw_score": 1.0515410289128182,
+        "score": 0.8135805385161388
     },
     {
-        "title": "Iran activates its \u2018resistance economy\u2019 to survive the war",
-        "link": "https://www.ft.com/content/8d63a713-2702-4661-b4cb-0daa657d7d0e",
-        "summary": "Islamic republic has spent years building a model designed to withstand hostility even as it presides over a deepening economic malaise",
-        "published": "Sun, 29 Mar 2026 04:00:08 GMT",
-        "score": 1.8193439250824959
+        "title": "Spain stocks higher at close of trade; IBEX 35 up 3.64%",
+        "summary": "",
+        "link": "https://www.investing.com/news/stock-market-news/spain-stocks-higher-at-close-of-trade-ibex-35-up-364-4603614",
+        "published": "2026-04-08 16:09:59",
+        "raw_score": 1.0419423101170948,
+        "score": 0.8013222183510914
     },
     {
-        "title": "A Paramount-Warner Bros. movie slate will need more animated features to compete with Disney and Universal",
-        "link": "https://www.cnbc.com/2026/03/28/paramount-warner-bros-movie-slate-needs-animation.html",
-        "summary": "In the last decade Paramount and Warner Bros. have each released eight animated features, meanwhile Disney has released 21 and Universal has launched 23.",
-        "published": "Sat, 28 Mar 2026 11:00:01 GMT",
-        "score": 1.8161919997012392
+        "title": "Greece Plans to Block Social Media for Children Under 15",
+        "summary": "Countries including Australia, Spain and others have already passed bans or are working on plans to restrict teenagers\u2019 access to social sites.",
+        "link": "https://www.nytimes.com/2026/04/08/world/europe/greece-social-media-teens.html",
+        "published": "Wed, 08 Apr 2026 14:57:10 +0000",
+        "raw_score": 1.0408019224756861,
+        "score": 0.7998658534842636
     },
     {
-        "title": "How the big oil and gas CEOs think the Iran war supply disruption will play out",
-        "link": "https://www.cnbc.com/2026/03/28/iran-war-oil-companies-price-gas-diesel-strait-hormuz.html",
-        "summary": "The oil industry's grim outlook for global oil and gas supplies stands in contrast to the Trump administration's promise that the disruption is short term.",
-        "published": "Sat, 28 Mar 2026 19:35:46 GMT",
-        "score": 1.7913896980683501
+        "title": "First ships pass Strait of Hormuz since Trump-Iran ceasefire, but traffic remains low amid confusion",
+        "summary": "Iran is reportedly planning to demand that shipping firms pay tolls in cryptocurrency to let their oil tankers through the Strait of Hormuz.",
+        "link": "https://www.cnbc.com/2026/04/08/trump-iran-ceasefire-strait-of-hormuz-toll.html",
+        "published": "Wed, 08 Apr 2026 15:55:49 GMT",
+        "raw_score": 1.0342045607351644,
+        "score": 0.7914405027493322
     },
     {
-        "title": "Yemen's Houthis launch Israel strike, the first time since the U.S.-Israel war began",
-        "link": "https://www.cnbc.com/2026/03/28/yemens-houthis-launch-israel-strike-the-first-of-the-iran-war.html",
-        "summary": "The entry of the Houthis in the war marks a significant escalation in the conflict as it enters its second month.",
-        "published": "Sat, 28 Mar 2026 18:57:21 GMT",
-        "score": 1.7353160201947009
+        "title": "Tech stocks today: Chip stocks lead tech higher, AI industry seeks to allay fears",
+        "summary": "",
+        "link": "https://finance.yahoo.com/sectors/technology/article/tech-stocks-today-chip-stocks-lead-tech-higher-ai-industry-seeks-to-allay-fears-144220666.html",
+        "published": "2026-03-13T14:42:20Z",
+        "raw_score": 1.0257178684066175,
+        "score": 0.7806023279971006
     },
     {
-        "title": "Here are 3 themes that drove another super challenging week for stocks",
-        "link": "https://www.cnbc.com/2026/03/28/here-are-3-themes-that-drove-another-super-challenging-week-for-stocks.html",
-        "summary": "The Iran war carnage on Wall Street is ever-widening.",
-        "published": "Sat, 28 Mar 2026 15:42:21 GMT",
-        "score": 1.7243694927562856
+        "title": "Swiss franc, Japanese yen Rise as DeepSeek News Boosts Safe Havens",
+        "summary": "The Yen and Swiss Franc were stronger against the dollar as investors sought safe havens after Chinese start-up DeepSeek\u2019s new AI model hit U.S. tech stocks.",
+        "link": "https://www.wsj.com/articles/safe-haven-currencies-strengthen-amid-fears-over-global-tariffs-9964e17a?mod=rss_markets_main",
+        "published": "Mon, 27 Jan 2025 09:55:00 -0500",
+        "raw_score": 1.0180888501613143,
+        "score": 0.7708594706235123
     },
     {
-        "title": "Eurozone borrowing costs soar on fears of fiscal hit from Iran shock",
-        "link": "https://www.ft.com/content/8fbabe23-f9d7-4d6e-b7e0-2281a28d0b2c",
-        "summary": "Government bonds face one of worst months of past decade as investors warn of \u2018deterioration\u2019 in public finances",
-        "published": "Sun, 29 Mar 2026 04:00:17 GMT",
-        "score": 1.7001829347516022
+        "title": "Stocks Sink in Broad AI Rout Sparked by China's DeepSeek",
+        "summary": "U.S. stocks were mostly lower, with the Nasdaq leading declines as makers of AI infrastructure suffered steep falls, many in the double digits. Nvidia was down 16%.",
+        "link": "https://www.wsj.com/articles/nikkei-may-rise-as-weak-yen-raises-earnings-hopes-776a8056?mod=rss_markets_main",
+        "published": "Mon, 27 Jan 2025 14:26:00 -0500",
+        "raw_score": 1.0140391380588034,
+        "score": 0.7656876692002887
     },
     {
-        "title": "U.S. Treasury Yields Fall But Direction for Long-End Yields Still Seen Upward",
-        "link": "https://www.wsj.com/articles/jgbs-consolidate-supported-by-u-s-treasurys-gains-7edccc7d?mod=rss_markets_main",
-        "summary": "The 10-year U.S. Treasury yield fell and ING said the the long end of the Treasury curve will continue trading at higher yields even as Trump hasn\u2019t delivered anything to shock markets so far.",
-        "published": "Mon, 27 Jan 2025 05:02:00 -0500",
-        "score": 1.6919788540841636
+        "title": "Oil prices plunge after Iran agrees to safe passage through Strait of Hormuz during ceasefire",
+        "summary": "President Donald Trump agreed to the ceasefire with Iran after discussions with Pakistan Prime Minister Shehbaz Sharif.",
+        "link": "https://www.cnbc.com/2026/04/07/oil-prices-iran-war-trump-deadline-strait-hormuz.html",
+        "published": "Wed, 08 Apr 2026 15:38:29 GMT",
+        "raw_score": 1.0072449451206995,
+        "score": 0.7570109495181278
     },
     {
-        "title": "Americans take to streets in \u2018No Kings\u2019 day protests against Trump",
-        "link": "https://www.ft.com/content/0c214d44-1cff-42b7-ba87-54e717a1fccd",
-        "summary": "Latest series of marches comes against backdrop of president\u2019s unpopular war in Iran",
-        "published": "Sat, 28 Mar 2026 21:22:15 GMT",
-        "score": 1.6630484495298075
-    },
-    {
-        "title": "Russia's Crude Exports Fairly Stable Despite U.S. Sanctions, Goldman Says",
-        "link": "https://www.wsj.com/articles/oil-futures-fall-after-trump-calls-for-tariffs-on-colombia-5b2a178c?mod=rss_markets_main",
-        "summary": "Oil edged lower in early trade as Goldman Sachs said the latest round of U.S. sanctions against Russia haven\u2019t had a significant impact on the country\u2019s oil exports.",
-        "published": "Mon, 27 Jan 2025 04:46:00 -0500",
-        "score": 1.6163779234726507
-    },
-    {
-        "title": "Arabica Coffee Prices Hit Record on U.S., Colombia Tariff Spat",
-        "link": "https://www.wsj.com/articles/arabica-coffee-prices-hit-new-high-on-u-s-colombia-tariff-spat-582446fe?mod=rss_markets_main",
-        "summary": "Arabica coffee prices hit a record level, as traders digested the withdrawal of President Trump\u2019s threats to impose tariffs and economic sanctions on Colombia.",
-        "published": "Mon, 27 Jan 2025 12:20:00 -0500",
-        "score": 1.4857190476517994
+        "title": "BofA favors AUD/JPY on oil prices and yen weakness outlook",
+        "summary": "",
+        "link": "https://www.investing.com/news/forex-news/bofa-favors-audjpy-on-oil-prices-and-yen-weakness-outlook-93CH-4602309",
+        "published": "2026-04-08 09:26:21",
+        "raw_score": 0.9930720159396378,
+        "score": 0.7389110022985673
     }
 ]

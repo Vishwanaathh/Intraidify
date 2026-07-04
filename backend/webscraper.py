@@ -5,9 +5,9 @@ import joblib
 import json
 import numpy as np
 from datetime import datetime
-from dateutil import parser  # pip install python-dateutil
+from dateutil import parser 
 
-# ------------------ Load models and vectorizers ------------------
+
 model_linear = joblib.load("../models/model.pkl")
 model_rf = joblib.load("../models/forestmodelreg.pkl")
 model_xgb = joblib.load("../models/xgb_classifier.pkl")
@@ -16,7 +16,7 @@ vectorizer = joblib.load("../models/vectorizer.pkl")
 vectorizerr = joblib.load("../models/vectorizerr.pkl")
 vectorizer_xgb = joblib.load("../models/vectorizer_xgb.pkl")
 
-# ------------------ Helper functions ------------------
+
 def normalize(arr):
     arr = np.array(arr)
     min_val = arr.min()
@@ -78,7 +78,7 @@ def fetch_news():
     return news
 
 
-# ------------------ Keyword scoring ------------------
+
 KEYWORD_WEIGHTS = {
     "acquisition": 5, "merger": 5, "buyout": 5, "takeover": 5,
     "record profit": 5, "profit surge": 5, "earnings beat": 5,
@@ -113,7 +113,6 @@ def keyword_score(text):
     return score
 
 
-# ------------------ Recency scoring ------------------
 def recency_score(published, decay=0.5):
     try:
         pub_date = parser.parse(published)
@@ -122,10 +121,10 @@ def recency_score(published, decay=0.5):
         score = np.exp(-decay * diff_hours / 24)  # scaled in days
         return score
     except:
-        return 0  # if date is missing or invalid
+        return 0 
 
 
-# ------------------ Ranking function ------------------
+
 def rank_news(news):
     texts = [item["title"] + " " + item["summary"] for item in news]
 
@@ -138,7 +137,7 @@ def rank_news(news):
     preds_linear = normalize(model_linear.predict(X_linear))
     preds_rf = normalize(model_rf.predict(X_rf))
     probs = model_xgb.predict_proba(X_xgb)
-    preds_xgb = probs[:, 1]  # adjust for binary/multi-class
+    preds_xgb = probs[:, 1]  
 
     for i in range(len(news)):
         base_score = (
@@ -153,7 +152,7 @@ def rank_news(news):
     return sorted(news, key=lambda x: x["score"], reverse=True)
 
 
-# ------------------ Main loop ------------------
+
 if __name__ == "__main__":
     while True:
         try:

@@ -1,0 +1,275 @@
+14:24:57 | INFO | START: load pre-trained models + vectorizers from ../models/
+14:24:59 | INFO |   all 4 models + 4 vectorizers loaded successfully
+14:24:59 | INFO | DONE:  load pre-trained models + vectorizers from ../models/ (2.5s)
+14:24:59 | INFO | START: import kagglehub + download DJIA dataset
+14:25:00 | INFO | DONE:  import kagglehub + download DJIA dataset (1.2s)
+14:25:00 | INFO | START: load + time-sort DJIA dataset, rebuild identical split
+14:25:00 | INFO |   test days: 398 (2014-12-03 00:00:00 -> 2016-07-01 00:00:00)
+14:25:00 | INFO | DONE:  load + time-sort DJIA dataset, rebuild identical split (0.1s)
+14:25:00 | INFO | START: flatten test headlines + predict with loaded models (no fitting)
+14:25:01 | INFO | DONE:  flatten test headlines + predict with loaded models (no fitting) (0.5s)
+14:25:01 | INFO | START: download + split SBI sentiment dataset, predict with loaded LightGBM
+14:25:02 | INFO | DONE:  download + split SBI sentiment dataset, predict with loaded LightGBM (1.4s)
+14:25:02 | INFO | START: evaluate Linear Regression
+14:25:03 | INFO |   {'spearman_rho': 0.1390744414282946, 'ndcg_at_10': 0.660055745474459}
+14:25:03 | INFO | DONE:  evaluate Linear Regression (0.8s)
+14:25:03 | INFO | START: evaluate Random Forest
+14:25:04 | INFO |   {'spearman_rho': 0.11912476681245034, 'ndcg_at_10': 0.6548861643942981}
+14:25:04 | INFO | DONE:  evaluate Random Forest (0.8s)
+14:25:04 | INFO | START: evaluate random baseline (NDCG@10 floor)
+14:25:11 | INFO |   {'ndcg_at_10_mean': 0.6018232421107532, 'ndcg_at_10_std': 0.004800992702669443}
+14:25:11 | INFO | DONE:  evaluate random baseline (NDCG@10 floor) (7.3s)
+14:25:11 | INFO | START: evaluate XGBoost classifier (vs. majority-class baseline)
+14:25:11 | INFO |   {'accuracy': 0.4157788944723618, 'macro_f1': 0.30477784067318153, 'majority_class_baseline_accuracy': 0.4}
+14:25:11 | INFO | DONE:  evaluate XGBoost classifier (vs. majority-class baseline) (0.0s)
+14:25:11 | INFO | START: evaluate LightGBM
+14:25:11 | INFO |   {'rmse': 0.2510081857162713, 'r2': 0.5792821322510767}
+14:25:11 | INFO | DONE:  evaluate LightGBM (0.0s)
+14:25:11 | INFO | START: write eval/metrics.json
+14:25:11 | INFO | DONE:  write eval/metrics.json (0.0s)
+14:25:11 | INFO | START: generate eval/plots/individual_models_bars.png
+14:25:12 | INFO | DONE:  generate eval/plots/individual_models_bars.png (0.6s)
+14:25:13 | INFO | START: prep actionability scorer (reuses loaded vectorizer_lin)
+14:25:13 | INFO | DONE:  prep actionability scorer (reuses loaded vectorizer_lin) (0.0s)
+14:25:13 | INFO | START: build day keys for the full test set (quota decides how many get processed today)
+14:25:13 | INFO |   full test set: 398 days
+14:25:13 | INFO | DONE:  build day keys for the full test set (quota decides how many get processed today) (0.0s)
+14:25:13 | INFO | START: load existing checkpoint (resume support)
+14:25:13 | INFO |   resuming: 60/398 days already done
+14:25:13 | INFO | DONE:  load existing checkpoint (resume support) (0.0s)
+14:25:13 | INFO | START: run pipeline ablation, up to 400 new LLM calls this run
+14:25:20 | INFO |   LLM call 1 succeeded: {'impact_score': 0.05, 'market_direction': 'neutral', 'event_type': 'political_statement', 'confidence': 0.8}
+14:25:45 | INFO |   5/400 calls used this run (65/398 days total)
+14:26:20 | INFO |   10/400 calls used this run (70/398 days total)
+14:27:04 | INFO |   15/400 calls used this run (75/398 days total)
+14:27:36 | INFO |   20/400 calls used this run (80/398 days total)
+14:28:10 | INFO |   25/400 calls used this run (85/398 days total)
+14:28:44 | INFO |   30/400 calls used this run (90/398 days total)
+14:29:18 | INFO |   35/400 calls used this run (95/398 days total)
+14:29:59 | INFO |   40/400 calls used this run (100/398 days total)
+14:30:34 | INFO |   45/400 calls used this run (105/398 days total)
+14:31:15 | INFO |   50/400 calls used this run (110/398 days total)
+14:31:50 | INFO |   55/400 calls used this run (115/398 days total)
+14:32:23 | INFO |   60/400 calls used this run (120/398 days total)
+14:32:57 | INFO |   65/400 calls used this run (125/398 days total)
+14:33:11 | WARNING |   LLM analyze error: [WinError 10054] An existing connection was forcibly closed by the remote host - using neutral fallback
+14:33:29 | INFO |   70/400 calls used this run (130/398 days total)
+14:33:41 | WARNING |   LLM analyze error: [WinError 10054] An existing connection was forcibly closed by the remote host - using neutral fallback
+14:34:05 | INFO |   75/400 calls used this run (135/398 days total)
+14:34:24 | WARNING |   LLM analyze error: [WinError 10054] An existing connection was forcibly closed by the remote host - using neutral fallback
+14:34:45 | WARNING |   LLM analyze error: [WinError 10054] An existing connection was forcibly closed by the remote host - using neutral fallback
+14:34:49 | INFO |   80/400 calls used this run (140/398 days total)
+14:35:30 | INFO |   85/400 calls used this run (145/398 days total)
+14:36:04 | INFO |   90/400 calls used this run (150/398 days total)
+14:36:37 | INFO |   95/400 calls used this run (155/398 days total)
+14:37:16 | INFO |   100/400 calls used this run (160/398 days total)
+14:37:58 | INFO |   105/400 calls used this run (165/398 days total)
+14:38:31 | INFO |   110/400 calls used this run (170/398 days total)
+14:39:09 | INFO |   115/400 calls used this run (175/398 days total)
+14:39:46 | INFO |   120/400 calls used this run (180/398 days total)
+14:40:24 | INFO |   125/400 calls used this run (185/398 days total)
+14:41:00 | INFO |   130/400 calls used this run (190/398 days total)
+14:41:36 | INFO |   135/400 calls used this run (195/398 days total)
+14:42:23 | INFO |   140/400 calls used this run (200/398 days total)
+14:43:02 | INFO |   145/400 calls used this run (205/398 days total)
+14:43:48 | INFO |   150/400 calls used this run (210/398 days total)
+14:44:26 | INFO |   155/400 calls used this run (215/398 days total)
+14:45:04 | INFO |   160/400 calls used this run (220/398 days total)
+14:45:39 | INFO |   165/400 calls used this run (225/398 days total)
+14:46:18 | INFO |   170/400 calls used this run (230/398 days total)
+14:46:54 | INFO |   175/400 calls used this run (235/398 days total)
+14:47:31 | INFO |   180/400 calls used this run (240/398 days total)
+14:48:08 | INFO |   185/400 calls used this run (245/398 days total)
+14:48:47 | INFO |   190/400 calls used this run (250/398 days total)
+14:49:29 | INFO |   195/400 calls used this run (255/398 days total)
+14:50:05 | INFO |   200/400 calls used this run (260/398 days total)
+14:50:45 | INFO |   205/400 calls used this run (265/398 days total)
+14:51:30 | INFO |   210/400 calls used this run (270/398 days total)
+14:52:07 | INFO |   215/400 calls used this run (275/398 days total)
+14:52:49 | INFO |   220/400 calls used this run (280/398 days total)
+14:53:31 | INFO |   225/400 calls used this run (285/398 days total)
+14:54:09 | INFO |   230/400 calls used this run (290/398 days total)
+14:54:51 | INFO |   235/400 calls used this run (295/398 days total)
+14:55:32 | INFO |   240/400 calls used this run (300/398 days total)
+14:56:15 | INFO |   245/400 calls used this run (305/398 days total)
+14:56:55 | INFO |   250/400 calls used this run (310/398 days total)
+14:57:36 | INFO |   255/400 calls used this run (315/398 days total)
+14:58:19 | INFO |   260/400 calls used this run (320/398 days total)
+14:59:02 | INFO |   265/400 calls used this run (325/398 days total)
+14:59:43 | INFO |   270/400 calls used this run (330/398 days total)
+15:00:34 | INFO |   275/400 calls used this run (335/398 days total)
+15:01:23 | INFO |   280/400 calls used this run (340/398 days total)
+15:02:21 | INFO |   285/400 calls used this run (345/398 days total)
+15:03:10 | INFO |   290/400 calls used this run (350/398 days total)
+15:03:56 | INFO |   295/400 calls used this run (355/398 days total)
+15:04:53 | INFO |   300/400 calls used this run (360/398 days total)
+15:05:42 | INFO |   305/400 calls used this run (365/398 days total)
+15:06:19 | INFO |   310/400 calls used this run (370/398 days total)
+15:07:12 | INFO |   315/400 calls used this run (375/398 days total)
+15:07:53 | INFO |   320/400 calls used this run (380/398 days total)
+15:08:34 | INFO |   325/400 calls used this run (385/398 days total)
+15:09:32 | INFO |   330/400 calls used this run (390/398 days total)
+15:10:13 | INFO |   335/400 calls used this run (395/398 days total)
+15:10:50 | INFO |   this run: 338 new LLM calls made
+15:10:50 | INFO |   cumulative: 398/398 days evaluated so far
+15:10:50 | INFO | DONE:  run pipeline ablation, up to 400 new LLM calls this run (2736.7s)
+15:10:50 | INFO | START: aggregate pipeline ablation results (cumulative, all completed days)
+15:10:50 | INFO |   CASCADE TOP-10 RESULT (378 days): ML-only rho=0.0899, LLM-reranked rho=0.0745 | ML-only NDCG@10=0.8606, LLM-reranked NDCG@10=0.8602
+15:10:50 | INFO | DONE:  aggregate pipeline ablation results (cumulative, all completed days) (0.0s)
+15:10:50 | INFO | START: paired significance tests (Wilcoxon signed-rank, same days across configs)
+15:10:50 | INFO |   A vs B: does keyword weighting help?
+15:10:50 | INFO |     NDCG@10:   {'n': 398, 'statistic': 35855.0, 'p_value': 0.09402015465522211, 'mean_diff': 0.005628295723162426, 'note': 'not significant at p<0.05'}
+15:10:50 | INFO |     Spearman:  {'n': 398, 'statistic': 33324.0, 'p_value': 0.006929472965169346, 'mean_diff': 0.01787780394711806, 'note': 'significant at p<0.05'}
+15:10:50 | INFO |   B vs C: does topic/actionability help?
+15:10:50 | INFO |     NDCG@10:   {'n': 398, 'statistic': 35058.0, 'p_value': 0.06252805927121796, 'mean_diff': 0.003624117303071053, 'note': 'not significant at p<0.05'}
+15:10:50 | INFO |     Spearman:  {'n': 398, 'statistic': 34949.5, 'p_value': 0.08014662684330687, 'mean_diff': 0.004808683587810769, 'note': 'not significant at p<0.05'}
+15:10:50 | INFO |   C vs D: does LLM softmax blend help?
+15:10:50 | INFO |     NDCG@10:   {'n': 398, 'statistic': 39650.0, 'p_value': 0.9824553417365067, 'mean_diff': -0.0010222747493623464, 'note': 'not significant at p<0.05'}
+15:10:50 | INFO |     Spearman:  {'n': 398, 'statistic': 38760.0, 'p_value': 0.9480068950544517, 'mean_diff': -0.0009527656557281726, 'note': 'not significant at p<0.05'}
+15:10:50 | INFO |   A vs D: does the full pipeline beat plain ML?
+15:10:50 | INFO |     NDCG@10:   {'n': 398, 'statistic': 34691.0, 'p_value': 0.029151041842797272, 'mean_diff': 0.008230138276871132, 'note': 'significant at p<0.05'}
+15:10:50 | INFO |     Spearman:  {'n': 398, 'statistic': 32236.5, 'p_value': 0.0014954418000194365, 'mean_diff': 0.021733721879200658, 'note': 'significant at p<0.05'}
+15:10:50 | INFO |   Cascade test: LLM re-ranking of ML's own top-10 vs. ML's own ordering of that top-10
+15:10:50 | INFO |     Spearman:  {'n': 378, 'statistic': 32666.0, 'p_value': 0.3741485794234056, 'mean_diff': 0.015392015392015393, 'note': 'not significant at p<0.05'}
+15:10:50 | INFO |     NDCG@10:   {'n': 378, 'statistic': 35412.0, 'p_value': 0.8494523250667765, 'mean_diff': 0.00036347104338691865, 'note': 'not significant at p<0.05'}
+15:10:50 | INFO | {
+  "n_test_days_evaluated": 398,
+  "n_test_days_total": 398,
+  "n_cascade_days_evaluated": 378,
+  "llm_calls_made_this_run": 338,
+  "llm_looked_broken": false,
+  "A_ml_only": {
+    "spearman_rho": 0.1453597306751892,
+    "ndcg_at_10": 0.6624671165214723
+  },
+  "B_ml_keyword": {
+    "spearman_rho": 0.12748192672807113,
+    "ndcg_at_10": 0.6568388207983097
+  },
+  "C_ml_keyword_topic_action": {
+    "spearman_rho": 0.12267324314026036,
+    "ndcg_at_10": 0.6532147034952389
+  },
+  "D_full_pipeline": {
+    "spearman_rho": 0.12362600879598855,
+    "ndcg_at_10": 0.654236978244601
+  },
+  "random_baseline_ndcg_at_10": 0.6064394616972207,
+  "w_llm_mean": 0.4185795208892162,
+  "w_llm_median": 0.4293635764754634,
+  "w_llm_fraction_above_0.5": 0.21768844221105527,
+  "cascade_top10": {
+    "rho_ml_only": 0.08991502324835657,
+    "rho_llm_reranked": 0.07452300785634118,
+    "ndcg_ml_only": 0.8605689047759901,
+    "ndcg_llm_reranked": 0.8602054337326032
+  },
+  "significance_tests": {
+    "A_vs_B": {
+      "description": "A vs B: does keyword weighting help?",
+      "ndcg_10": {
+        "n": 398,
+        "statistic": 35855.0,
+        "p_value": 0.09402015465522211,
+        "mean_diff": 0.005628295723162426,
+        "note": "not significant at p<0.05"
+      },
+      "spearman": {
+        "n": 398,
+        "statistic": 33324.0,
+        "p_value": 0.006929472965169346,
+        "mean_diff": 0.01787780394711806,
+        "note": "significant at p<0.05"
+      }
+    },
+    "B_vs_C": {
+      "description": "B vs C: does topic/actionability help?",
+      "ndcg_10": {
+        "n": 398,
+        "statistic": 35058.0,
+        "p_value": 0.06252805927121796,
+        "mean_diff": 0.003624117303071053,
+        "note": "not significant at p<0.05"
+      },
+      "spearman": {
+        "n": 398,
+        "statistic": 34949.5,
+        "p_value": 0.08014662684330687,
+        "mean_diff": 0.004808683587810769,
+        "note": "not significant at p<0.05"
+      }
+    },
+    "C_vs_D": {
+      "description": "C vs D: does LLM softmax blend help?",
+      "ndcg_10": {
+        "n": 398,
+        "statistic": 39650.0,
+        "p_value": 0.9824553417365067,
+        "mean_diff": -0.0010222747493623464,
+        "note": "not significant at p<0.05"
+      },
+      "spearman": {
+        "n": 398,
+        "statistic": 38760.0,
+        "p_value": 0.9480068950544517,
+        "mean_diff": -0.0009527656557281726,
+        "note": "not significant at p<0.05"
+      }
+    },
+    "A_vs_D": {
+      "description": "A vs D: does the full pipeline beat plain ML?",
+      "ndcg_10": {
+        "n": 398,
+        "statistic": 34691.0,
+        "p_value": 0.029151041842797272,
+        "mean_diff": 0.008230138276871132,
+        "note": "significant at p<0.05"
+      },
+      "spearman": {
+        "n": 398,
+        "statistic": 32236.5,
+        "p_value": 0.0014954418000194365,
+        "mean_diff": 0.021733721879200658,
+        "note": "significant at p<0.05"
+      }
+    },
+    "cascade_ml_vs_llm_reranked": {
+      "description": "Cascade test: LLM re-ranking of ML's own top-10 vs. ML's own ordering of that top-10",
+      "spearman": {
+        "n": 378,
+        "statistic": 32666.0,
+        "p_value": 0.3741485794234056,
+        "mean_diff": 0.015392015392015393,
+        "note": "not significant at p<0.05"
+      },
+      "ndcg_10": {
+        "n": 378,
+        "statistic": 35412.0,
+        "p_value": 0.8494523250667765,
+        "mean_diff": 0.00036347104338691865,
+        "note": "not significant at p<0.05"
+      }
+    }
+  },
+  "significance_test_note": "Wilcoxon signed-rank test, paired by day, computed over all days evaluated so far (cumulative across runs). With few days completed these tests have low statistical power - the more runs you accumulate (at 20 days/day), the more reliable these p-values become. Check n_test_days_evaluated vs n_test_days_total below.",
+  "known_limitations": [
+    "text = title only (no summary field in the DJIA dataset) - this eval sees less text per headline than production does.",
+    "recency() is a constant 1.0 here - documented no-op offline.",
+    "For non-top-10 headlines, kog defaults to 0.5*0.5=0.25 (neutral placeholder), which softmax treats as a real competing score."
+  ]
+}
+15:10:50 | INFO | DONE:  paired significance tests (Wilcoxon signed-rank, same days across configs) (0.0s)
+15:10:50 | INFO | START: write eval/full_pipeline_comparison.md
+15:10:50 | INFO | DONE:  write eval/full_pipeline_comparison.md (0.0s)
+15:10:50 | INFO | START: generate eval/plots/ablation_bars.png
+15:10:50 | INFO | DONE:  generate eval/plots/ablation_bars.png (0.1s)
+15:10:50 | INFO | START: generate eval/plots/llm_weight_distribution.png
+15:10:50 | INFO | DONE:  generate eval/plots/llm_weight_distribution.png (0.1s)
+15:10:50 | INFO | START: generate eval/plots/daily_ndcg_boxplot.png
+15:10:50 | INFO | DONE:  generate eval/plots/daily_ndcg_boxplot.png (0.1s)
+15:10:50 | INFO | ============================================================
+15:10:50 | INFO | ALL DONE (eval-only, no retraining occurred).
+15:10:50 | INFO | 338 new LLM calls made this run.
+15:10:50 | INFO | Cumulative: 398/398 days evaluated.
+15:10:50 | INFO | Full test set complete - these numbers are final.
+15:10:50 | INFO | ============================================================
