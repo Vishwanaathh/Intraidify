@@ -21,8 +21,8 @@ load_dotenv()
 USERS_FILE = "users.json"
 NEWS_FILE = "news.json"
 
-EMAIL_USER = "csfinancialservices4@gmail.com"
-EMAIL_PASS = "ckvv hidk ikxq ugmf"
+EMAIL_USER =""
+EMAIL_PASS =""
 
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 client = genai.Client(api_key=GEMINI_API_KEY)
